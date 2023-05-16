@@ -29,7 +29,7 @@ class InfoTab extends StatelessWidget {
               ),
               SizedBox(height: 10.0),
               Image(
-                image: AssetImage('images/kbrtitle.png'),
+                image: AssetImage('assets/images/kbrtitle.png'),
                 height: 210,
               ),
               SizedBox(height: 10.0),
@@ -40,7 +40,7 @@ class InfoTab extends StatelessWidget {
               ),
               SizedBox(height: 10.0),
               Image(
-                image: AssetImage('images/rkbtitle.png'),
+                image: AssetImage('assets/images/rkbtitle.png'),
                 height: 210,
               ),
               SizedBox(height: 10.0),
