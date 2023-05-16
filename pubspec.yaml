@@ -30,9 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.2.8+2
+  sqflite: ^2.2.8+3
   path_provider: ^2.0.15
-  never_behind_keyboard: ^1.0.1
+  never_behind_keyboard: ^1.0.2
   flutter_html: ^2.2.1
 
   # The following adds the Cupertino Icons font to your application.
