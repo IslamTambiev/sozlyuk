@@ -54,7 +54,7 @@ class DatabaseHelper {
     }
     Database db = await instance.database;
     var words = await db.query(table,
-        columns: ["_id", "slovo"], where: "slovo LIKE '${word}%' LIMIT 50");
+        columns: ["_id", "slovo"], where: "slovo LIKE '${word}%'");
     List<WordTranslation> wordsList = words.isNotEmpty
         ? words.map((c) => WordTranslation.fromMap(c)).toList()
         : [];

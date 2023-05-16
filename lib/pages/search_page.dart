@@ -177,7 +177,23 @@ class _SearchTabState extends State<SearchTab>
                         return const Center();
                       }
                       return snapshot.data!.isEmpty
-                          ? const Center(child: Text('Нет такого слова.'))
+                          ? Center(
+                              child: Container(
+                              height: 30,
+                              width: 200,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: const Text(
+                                'Нет такого слова.',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ))
                           : Container(
                               //height: MediaQuery.of(context).size.height - 550,
                               decoration: BoxDecoration(
