@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'services/db.dart';
-import 'models/model.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:never_behind_keyboard/never_behind_keyboard.dart';
+import '../services/db.dart';
+import '../models/model.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
@@ -11,7 +11,8 @@ class SearchTab extends StatefulWidget {
   _SearchTabState createState() => _SearchTabState();
 }
 
-class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixin<SearchTab> {
+class _SearchTabState extends State<SearchTab>
+    with AutomaticKeepAliveClientMixin<SearchTab> {
   int? selectedId;
   String searchingWord = '';
   String selectedWord = '';
@@ -27,10 +28,11 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
   }
 
   void showTranslation() async {
-    if (selectedId == null){
-      result = "qd";
+    if (selectedId == null) {
+      result = "Что-то пошло не так.";
     }
-    result = (await DatabaseHelper.instance.getOneTranslation(isButtonClicked ? 'slovarrkb' : 'slovarkbr', selectedId!))!;
+    result = (await DatabaseHelper.instance.getOneTranslation(
+        isButtonClicked ? 'slovarrkb' : 'slovarkbr', selectedId!))!;
   }
 
   void searchWord(String word) {
@@ -72,6 +74,7 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                       border: InputBorder.none,
                       hintText: 'Введите слово',
                     ),
+                    style: const TextStyle(fontSize: 20),
                     onChanged: (value) {
                       isvisible = true;
                       searchWord(value);
@@ -90,8 +93,9 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                     toggleButtonText();
                   },
                   child: Text(
-                    isButtonClicked ? 'РУС - КАР-БАЛ' : 'КАР-БАЛ - РУС',
-                    style: const TextStyle(fontSize: 8.0),
+                    isButtonClicked ? 'РУС - \nКАР-БАЛ' : 'КАР-БАЛ - \nРУС',
+                    style: const TextStyle(fontSize: 10.0),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
@@ -109,10 +113,19 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                             height: 30,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.white.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Text(selectedWord)),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                selectedWord,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
                       ),
                       const SizedBox(width: 16.0),
                       SizedBox(
@@ -138,7 +151,12 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: Html(data: result, style: {"body": Style(fontSize: const FontSize(20)) },),
+                      child: SingleChildScrollView(
+                        child: Html(
+                          data: result,
+                          style: {"body": Style(fontSize: const FontSize(19))},
+                        ),
+                      ),
                       //Text(
                       //   result,
                       //   style: const TextStyle(fontSize: 20.0),
@@ -207,7 +225,8 @@ class _SearchTabState extends State<SearchTab> with AutomaticKeepAliveClientMixi
                                               selectedWord = word.slovo;
                                               selectedId = word.id;
                                               showTranslation();
-                                              FocusManager.instance.primaryFocus?.unfocus();
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
                                               isvisible = false;
                                             });
                                           },

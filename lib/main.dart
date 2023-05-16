@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'sqliteexample.dart';
-import 'info_page.dart';
-//import 'saved_page.dart';
-import 'search_page.dart';
+import 'pages/sqliteexample.dart';
+import 'pages/search_page.dart';
+import 'pages/info_page.dart';
+//import 'pages/saved_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

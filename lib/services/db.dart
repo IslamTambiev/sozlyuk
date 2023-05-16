@@ -49,19 +49,19 @@ class DatabaseHelper {
 
   Future<List<WordTranslation>> getTranslation(
       String table, String word) async {
-    if(word == ""){
+    if (word == "") {
       return [];
     }
     Database db = await instance.database;
-    var words = await db.query(table, columns: ["_id", "slovo"], where: "slovo LIKE '${word}%' LIMIT 50");
+    var words = await db.query(table,
+        columns: ["_id", "slovo"], where: "slovo LIKE '${word}%' LIMIT 50");
     List<WordTranslation> wordsList = words.isNotEmpty
         ? words.map((c) => WordTranslation.fromMap(c)).toList()
         : [];
     return wordsList;
   }
 
-  Future<String?> getOneTranslation(
-      String table, int id) async {
+  Future<String?> getOneTranslation(String table, int id) async {
     Database db = await instance.database;
     var word = await db.query(table, where: "_id = ${id}");
     return word[0]["perevod"].toString();
