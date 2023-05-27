@@ -14,12 +14,21 @@ class SearchTab extends StatefulWidget {
 class _SearchTabState extends State<SearchTab>
     with AutomaticKeepAliveClientMixin<SearchTab> {
   int? selectedId;
-  String searchingWord = '';
-  String selectedWord = '';
-  String result = '';
-  String translation = 'qwert';
-  bool isvisible = false;
-  bool isButtonClicked = false;
+  late String searchingWord;
+  late String selectedWord;
+  late String result;
+  late bool isvisible;
+  late bool isButtonClicked;
+
+  @override
+  void initState() {
+    super.initState();
+    searchingWord = '';
+    selectedWord = '';
+    result = '';
+    isvisible = false;
+    isButtonClicked = false;
+  }
 
   void toggleButtonText() {
     setState(() {
@@ -31,8 +40,9 @@ class _SearchTabState extends State<SearchTab>
     if (selectedId == null) {
       result = "Что-то пошло не так.";
     }
-    result = (await DatabaseHelper.instance.getOneTranslation(
+    String text = (await DatabaseHelper.instance.getOneTranslation(
         isButtonClicked ? 'slovarrkb' : 'slovarkbr', selectedId!))!;
+    setState((){result = text;});
   }
 
   void searchWord(String word) {
