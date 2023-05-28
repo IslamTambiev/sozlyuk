@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:never_behind_keyboard/never_behind_keyboard.dart';
 import '../services/db.dart';
-import '../models/model.dart';
+import '../models/word_model.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
@@ -167,10 +167,6 @@ class _SearchTabState extends State<SearchTab>
                           style: {"body": Style(fontSize: const FontSize(19))},
                         ),
                       ),
-                      //Text(
-                      //   result,
-                      //   style: const TextStyle(fontSize: 20.0),
-                      // ),
                     ),
                   ),
                 ]),

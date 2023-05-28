@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 //import 'package:path_provider/path_provider.dart';
 
-import 'package:sozlyuk/models/model.dart';
+import 'package:sozlyuk/models/word_model.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
@@ -54,7 +54,7 @@ class DatabaseHelper {
     }
     Database db = await instance.database;
     var words = await db.query(table,
-        columns: ["_id", "slovo"], where: "slovo LIKE '${word}%'");
+        columns: ["_id", "slovo"], distinct: true, where: "slovo LIKE '${word}%'");
     List<WordTranslation> wordsList = words.isNotEmpty
         ? words.map((c) => WordTranslation.fromMap(c)).toList()
         : [];
