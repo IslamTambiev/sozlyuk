@@ -32,9 +32,9 @@ class _SavedTabState extends State<SavedTab>
 
   String checkTable() {
     if (lang == 0) {
-      return 'slovarrkb';
-    } else {
       return 'slovarkbr';
+    } else {
+      return 'slovarrkb';
     }
   }
 
@@ -91,47 +91,50 @@ class _SavedTabState extends State<SavedTab>
                     builder: (BuildContext context,
                         AsyncSnapshot<List<WordTranslation>> snapshot) {
                       if (isvisible) {
-                        return Column(children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                    height: 30,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Text(
-                                      selectedWord,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16.0),
-                          Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: SingleChildScrollView(
-                                child: Html(
-                                  data: result,
-                                  style: {
-                                    "body": Style(fontSize: const FontSize(19))
-                                  },
+                        return WillPopScope(
+                          onWillPop: () async { setState(() {isvisible = false;}); return false; },
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                      height: 30,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      child: Text(
+                                        selectedWord,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            Expanded(
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Html(
+                                    data: result,
+                                    style: {
+                                      "body": Style(fontSize: const FontSize(19))
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ]);
+                          ]),
+                        );
                       }
 
                       if (!snapshot.hasData) {

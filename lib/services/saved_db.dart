@@ -14,7 +14,7 @@ class SavedDatabaseHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String dbPath = join(documentsDirectory.path, 'saves.db');
+    String dbPath = join(documentsDirectory.path, 'saveDB.db');
     //databaseFactory.deleteDatabase(dbPath);
     //File(dbPath).delete();
 
@@ -35,7 +35,6 @@ class SavedDatabaseHelper {
       CREATE TABLE saves(
           id INTEGER PRIMARY KEY,
           slovo TEXT
-          lang INTEGER
       )
       ''');
   }

@@ -49,7 +49,11 @@ class _SearchTabState extends State<SearchTab>
   }
 
   void saveWord() async {
-    await SavedDatabaseHelper.instance.add(WordTranslation(id: selectedId, slovo: selectedWord, lang: lang));
+    try {
+      await SavedDatabaseHelper.instance.add(
+          WordTranslation(id: selectedId, slovo: selectedWord, lang: lang));
+    }
+    catch (e){}
   }
 
   void searchWord(String word) {
