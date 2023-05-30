@@ -42,6 +42,14 @@ class _SavedTabState extends State<SavedTab>
     }
   }
 
+  void deleteTranslation(int? id, int? lang) async {
+    if (id == null || lang == null) {
+      print("Что-то пошло не так.");
+    } else {
+      await SavedDatabaseHelper.instance.remove(id, lang);
+    }
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -65,7 +73,8 @@ class _SavedTabState extends State<SavedTab>
                         Text(
                           "Длительное нажатие удаляет слово из списка",
                           style: TextStyle(
-                              fontSize: 18,),
+                            fontSize: 18,
+                          ),
                         ),
                       ]),
                 ),
@@ -83,12 +92,12 @@ class _SavedTabState extends State<SavedTab>
                       return snapshot.data!.isEmpty
                           ? const Center(
                               child: Text(
-                                'Нет слов.',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
-                              ))
+                              'Нет слов.',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ))
                           : ListView(
                               //shrinkWrap: true,
                               physics: const AlwaysScrollableScrollPhysics(),
@@ -129,7 +138,10 @@ class _SavedTabState extends State<SavedTab>
                                         });
                                       },
                                       onLongPress: () {
-                                        SavedDatabaseHelper.instance.remove(id: word.id, lang: word.lang);
+                                        print(word.id);
+                                        print(word.lang);
+                                        print(word.slovo);
+                                        deleteTranslation(word.id, word.lang);
                                       },
                                     ),
                                   ),

@@ -60,8 +60,8 @@ class SavedDatabaseHelper {
     return await db.insert('saves', word.toMap());
   }
 
-  Future<int> remove(int id, int lang) async {
+  Future<int> remove(int? id, int? lang) async {
     Database db = await instance.database;
-    return await db.delete('saves', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('saves', where: 'id = ? AND lang = ?', whereArgs: [id, lang]);
   }
 }
