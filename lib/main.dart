@@ -102,10 +102,10 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          SearchTab(),
+        children: [
+          SearchTab(needUpdate: () {setState(() {});  },),
           SavedTab(),
-          InfoTab(),
+          const InfoTab(),
         ],
       ),
     );

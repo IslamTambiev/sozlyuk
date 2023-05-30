@@ -6,7 +6,8 @@ import '../services/saved_db.dart';
 import '../models/word_model.dart';
 
 class SearchTab extends StatefulWidget {
-  const SearchTab({super.key});
+  final VoidCallback? needUpdate;
+  const SearchTab({super.key, required this.needUpdate});
 
   @override
   State<SearchTab> createState() => _SearchTabState();
@@ -154,6 +155,7 @@ class _SearchTabState extends State<SearchTab>
                           onPressed: () {
                             if(selectedWord != ''){
                               saveWord();
+                              widget.needUpdate!();
                             }
                             if (isButtonClicked){
                               lang = 1;
