@@ -5,22 +5,28 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:sozlyuk/models/word_model.dart';
 
-class DatabaseHelper {
-  DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+class SavedDatabaseHelper {
+  SavedDatabaseHelper._privateConstructor();
+  static final SavedDatabaseHelper instance = SavedDatabaseHelper._privateConstructor();
 
   static Database? _database;
   Future<Database> get database async => _database ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {
-    //var dbDir = await getDatabasesPath();
-
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String dbPath = join(documentsDirectory.path, 'saves.db');
+    //databaseFactory.deleteDatabase(dbPath);
+    //File(dbPath).delete();
+
     return await openDatabase(
       dbPath,
-      version: 1,
+      version: 3,
       onCreate: _onCreate,
+      onUpgrade: (Database db, int oldV, int newV) async {
+        if (oldV < newV) {
+          await db.execute('ALTER TABLE saves ADD COLUMN lang INTEGER');
+        }
+      },
     );
   }
 
@@ -29,6 +35,7 @@ class DatabaseHelper {
       CREATE TABLE saves(
           id INTEGER PRIMARY KEY,
           slovo TEXT
+          lang INTEGER
       )
       ''');
   }
@@ -53,7 +60,7 @@ class DatabaseHelper {
     return await db.insert('saves', word.toMap());
   }
 
-  Future<int> remove(int id) async {
+  Future<int> remove(int id, int lang) async {
     Database db = await instance.database;
     return await db.delete('saves', where: 'id = ?', whereArgs: [id]);
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:never_behind_keyboard/never_behind_keyboard.dart';
 import '../services/db.dart';
+import '../services/saved_db.dart';
 import '../models/word_model.dart';
 
 class SearchTab extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SearchTabState extends State<SearchTab>
   late String result;
   late bool isvisible;
   late bool isButtonClicked;
+  late int lang;
 
   @override
   void initState() {
@@ -28,6 +30,7 @@ class _SearchTabState extends State<SearchTab>
     result = '';
     isvisible = false;
     isButtonClicked = false;
+    lang = 0;
   }
 
   void toggleButtonText() {
@@ -45,13 +48,13 @@ class _SearchTabState extends State<SearchTab>
     setState((){result = text;});
   }
 
+  void saveWord() async {
+    await SavedDatabaseHelper.instance.add(WordTranslation(id: selectedId, slovo: selectedWord, lang: lang));
+  }
+
   void searchWord(String word) {
-    // Implement your logic to search for the word and fetch the translation
-    // Update the 'translation' variable with the fetched translation
-    //print(word);
     setState(() {
       searchingWord = word;
-      // Update the 'translation' variable here
     });
   }
 
@@ -145,9 +148,17 @@ class _SearchTabState extends State<SearchTab>
                             backgroundColor: Colors.indigoAccent.shade200,
                           ),
                           onPressed: () {
-                            // Handle button press
+                            if(selectedWord != ''){
+                              saveWord();
+                            }
+                            if (isButtonClicked){
+                              lang = 1;
+                            }
+                            else{
+                              lang = 0;
+                            }
                           },
-                          child: const Icon(Icons.star),
+                          child: const Icon(Icons.star_outline),
                         ),
                       ),
                     ],
