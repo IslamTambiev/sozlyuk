@@ -193,6 +193,7 @@ class _SearchTabState extends State<SearchTab>
                             }
                             if (selectedWord != '' && isInSaves) {
                               deleteWord();
+                              widget.needUpdate!();
                             }
                             setState(() {
                               isInSaves = true;
