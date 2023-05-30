@@ -23,13 +23,13 @@ class SavedDatabaseHelper {
 
     return await openDatabase(
       dbPath,
-      version: 3,
+      version: 1,
       onCreate: _onCreate,
-      onUpgrade: (Database db, int oldV, int newV) async {
-        if (oldV < newV) {
-          await db.execute('ALTER TABLE saves ADD COLUMN lang INTEGER');
-        }
-      },
+      // onUpgrade: (Database db, int oldV, int newV) async {
+      //   if (oldV < newV) {
+      //     await db.execute('ALTER TABLE saves ADD COLUMN lang INTEGER');
+      //   }
+      // },
     );
   }
 
@@ -37,7 +37,8 @@ class SavedDatabaseHelper {
     await db.execute('''
       CREATE TABLE saves(
           id INTEGER PRIMARY KEY,
-          slovo TEXT
+          slovo TEXT,
+          lang INTEGER
       )
       ''');
   }

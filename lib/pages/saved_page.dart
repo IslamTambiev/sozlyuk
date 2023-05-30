@@ -80,8 +80,9 @@ class _SavedTabState extends State<SavedTab>
                       children: const [
                         Text(
                           "Длительное нажатие удаляет слово из списка",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ]),
