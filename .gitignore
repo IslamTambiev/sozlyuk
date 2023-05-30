@@ -31,7 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-/pages/sqliteexample.dart
+/lib/pages/sqliteexample.dart
 
 # Symbolication related
 app.*.symbols
