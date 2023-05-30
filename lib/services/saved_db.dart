@@ -48,11 +48,16 @@ class SavedDatabaseHelper {
     return wordsList;
   }
 
-  // Future<String?> getOneTranslation(String table, int id) async {
-  //   Database db = await instance.database;
-  //   var word = await db.query(table, where: "_id = ${id}");
-  //   return word[0]["perevod"].toString();
-  // }
+  Future<bool> getOneTranslation(int? id, int? lang) async {
+    Database db = await instance.database;
+    var word = await db.query('saves', where: 'id = ? AND lang = ?', whereArgs: [id, lang]);
+    if (word.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+    // return word[0]["slovo"].toString();
+  }
 
   Future<int> add(WordTranslation word) async {
     Database db = await instance.database;

@@ -21,6 +21,7 @@ class _SearchTabState extends State<SearchTab>
   late String result;
   late bool isvisible;
   late bool isButtonClicked;
+  late bool isInSaves;
   late int lang;
 
   @override
@@ -31,6 +32,7 @@ class _SearchTabState extends State<SearchTab>
     result = '';
     isvisible = false;
     isButtonClicked = false;
+    isInSaves = false;
     lang = 0;
   }
 
@@ -38,6 +40,15 @@ class _SearchTabState extends State<SearchTab>
     setState(() {
       isButtonClicked = !isButtonClicked;
     });
+  }
+
+  Icon getIconForButton() {
+    if (isInSaves) {
+      return const Icon(Icons.star);
+    }
+    else {
+      return const Icon(Icons.star_outline);
+    }
   }
 
   void showTranslation() async {
@@ -55,6 +66,23 @@ class _SearchTabState extends State<SearchTab>
           WordTranslation(id: selectedId, slovo: selectedWord, lang: lang));
     }
     catch (e){}
+  }
+
+  void checkWord() async {
+    bool word = await SavedDatabaseHelper.instance.getOneTranslation(selectedId, lang);
+    if (word){
+      isInSaves = true;
+    }
+    else{
+      isInSaves = false;
+    }
+  }
+
+  void deleteWord() async {
+    await SavedDatabaseHelper.instance.remove(selectedId, lang);
+    setState(() {
+      isInSaves = false;
+    });
   }
 
   void searchWord(String word) {
@@ -153,18 +181,25 @@ class _SearchTabState extends State<SearchTab>
                             backgroundColor: Colors.indigoAccent.shade200,
                           ),
                           onPressed: () {
-                            if(selectedWord != ''){
-                              saveWord();
-                              widget.needUpdate!();
-                            }
                             if (isButtonClicked){
                               lang = 1;
                             }
                             else{
                               lang = 0;
                             }
+                            if(selectedWord != '' && !isInSaves){
+                              saveWord();
+                              widget.needUpdate!();
+                            }
+                            if(selectedWord != '' && isInSaves){
+                              deleteWord();
+                            }
+                            setState(() {
+                              isInSaves = true;
+                            });
+                            checkWord();
                           },
-                          child: const Icon(Icons.star_outline),
+                          child: getIconForButton(),
                         ),
                       ),
                     ],
@@ -260,6 +295,7 @@ class _SearchTabState extends State<SearchTab>
                                             ),
                                           ),
                                           onTap: () {
+                                            checkWord();
                                             setState(() {
                                               selectedWord = word.slovo;
                                               selectedId = word.id;
