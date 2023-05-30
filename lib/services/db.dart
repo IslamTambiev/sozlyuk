@@ -41,7 +41,7 @@ class DatabaseHelper {
     }
     Database db = await instance.database;
     var words = await db.query(table,
-        columns: ["_id", "slovo"], where: "slovo LIKE '${word}%'");
+        columns: ["id", "slovo"], where: "slovo LIKE '${word}%'");
     List<WordTranslation> wordsList = words.isNotEmpty
         ? words.map((c) => WordTranslation.fromMap(c)).toList()
         : [];
@@ -50,7 +50,7 @@ class DatabaseHelper {
 
   Future<String?> getOneTranslation(String table, int id) async {
     Database db = await instance.database;
-    var word = await db.query(table, where: "_id = ${id}");
+    var word = await db.query(table, where: "id = ${id}");
     return word[0]["perevod"].toString();
   }
 }

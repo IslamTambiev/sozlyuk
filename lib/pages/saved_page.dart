@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '../services/db.dart';
 import '../services/saved_db.dart';
@@ -18,7 +19,7 @@ class _SavedTabState extends State<SavedTab>
   late String selectedWord;
   late String result;
   late bool isvisible;
-  late bool isButtonClicked;
+  int? lang;
 
   @override
   void initState() {
@@ -27,15 +28,22 @@ class _SavedTabState extends State<SavedTab>
     selectedWord = '';
     result = '';
     isvisible = false;
-    isButtonClicked = false;
+  }
+
+  String checkTable() {
+    if (lang == 0) {
+      return 'slovarrkb';
+    } else {
+      return 'slovarkbr';
+    }
   }
 
   void showTranslation() async {
     if (selectedId == null) {
       result = "Что-то пошло не так.";
     } else {
-      String text = (await DatabaseHelper.instance.getOneTranslation(
-          isButtonClicked ? 'slovarrkb' : 'slovarkbr', selectedId!))!;
+      String text = (await DatabaseHelper.instance
+          .getOneTranslation(checkTable(), selectedId!))!;
       setState(() {
         result = text;
       });
@@ -44,9 +52,9 @@ class _SavedTabState extends State<SavedTab>
 
   void deleteTranslation(int? id, int? lang) async {
     if (id == null || lang == null) {
-      print("Что-то пошло не так.");
     } else {
       await SavedDatabaseHelper.instance.remove(id, lang);
+      setState(() {});
     }
   }
 
@@ -83,7 +91,47 @@ class _SavedTabState extends State<SavedTab>
                     builder: (BuildContext context,
                         AsyncSnapshot<List<WordTranslation>> snapshot) {
                       if (isvisible) {
-                        print('isvisible');
+                        return Column(children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                    height: 30,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Text(
+                                      selectedWord,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16.0),
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: SingleChildScrollView(
+                                child: Html(
+                                  data: result,
+                                  style: {
+                                    "body": Style(fontSize: const FontSize(19))
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]);
                       }
 
                       if (!snapshot.hasData) {
@@ -92,11 +140,10 @@ class _SavedTabState extends State<SavedTab>
                       return snapshot.data!.isEmpty
                           ? const Center(
                               child: Text(
-                              'Нет слов.',
+                              'Нет сохранённых слов',
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold),
+                                fontSize: 20,
+                              ),
                             ))
                           : ListView(
                               //shrinkWrap: true,
@@ -133,14 +180,12 @@ class _SavedTabState extends State<SavedTab>
                                         setState(() {
                                           selectedWord = word.slovo;
                                           selectedId = word.id;
+                                          lang = word.lang;
                                           showTranslation();
                                           isvisible = true;
                                         });
                                       },
                                       onLongPress: () {
-                                        print(word.id);
-                                        print(word.lang);
-                                        print(word.slovo);
                                         deleteTranslation(word.id, word.lang);
                                       },
                                     ),
