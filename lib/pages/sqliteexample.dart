@@ -21,7 +21,8 @@ class _SqliteAppState extends State<SqliteApp> {
     return MaterialApp(
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(
-            primary: Colors.indigo.shade500, secondary:  Colors.indigoAccent.shade200),
+            primary: Colors.indigo.shade500,
+            secondary: Colors.indigoAccent.shade200),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
@@ -41,35 +42,35 @@ class _SqliteAppState extends State<SqliteApp> {
                 return snapshot.data!.isEmpty
                     ? const Center(child: Text('No Groceries in List.'))
                     : ListView(
-                  children: snapshot.data!.map((grocery) {
-                    return Center(
-                      child: Card(
-                        color: selectedId == grocery.id
-                            ? Colors.white70
-                            : Colors.white,
-                        child: ListTile(
-                          title: Text(grocery.name),
-                          onTap: () {
-                            setState(() {
-                              if (selectedId == null) {
-                                textController.text = grocery.name;
-                                selectedId = grocery.id;
-                              } else {
-                                textController.text = '';
-                                selectedId = null;
-                              }
-                            });
-                          },
-                          onLongPress: () {
-                            setState(() {
-                              DatabaseHelp.instance.remove(grocery.id!);
-                            });
-                          },
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                );
+                        children: snapshot.data!.map((grocery) {
+                          return Center(
+                            child: Card(
+                              color: selectedId == grocery.id
+                                  ? Colors.white70
+                                  : Colors.white,
+                              child: ListTile(
+                                title: Text(grocery.name),
+                                onTap: () {
+                                  setState(() {
+                                    if (selectedId == null) {
+                                      textController.text = grocery.name;
+                                      selectedId = grocery.id;
+                                    } else {
+                                      textController.text = '';
+                                      selectedId = null;
+                                    }
+                                  });
+                                },
+                                onLongPress: () {
+                                  setState(() {
+                                    DatabaseHelp.instance.remove(grocery.id!);
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
               }),
         ),
         floatingActionButton: FloatingActionButton(
@@ -77,11 +78,11 @@ class _SqliteAppState extends State<SqliteApp> {
           onPressed: () async {
             selectedId != null
                 ? await DatabaseHelp.instance.update(
-              Grocery(id: selectedId, name: textController.text),
-            )
+                    Grocery(id: selectedId, name: textController.text),
+                  )
                 : await DatabaseHelp.instance.add(
-              Grocery(name: textController.text),
-            );
+                    Grocery(name: textController.text),
+                  );
             setState(() {
               textController.clear();
               selectedId = null;
@@ -100,9 +101,9 @@ class Grocery {
   Grocery({this.id, required this.name});
 
   factory Grocery.fromMap(Map<String, dynamic> json) => Grocery(
-    id: json['id'],
-    name: json['name'],
-  );
+        id: json['id'],
+        name: json['name'],
+      );
 
   Map<String, dynamic> toMap() {
     return {
@@ -114,9 +115,11 @@ class Grocery {
 
 class DatabaseHelp {
   DatabaseHelp._privateConstructor();
+
   static final DatabaseHelp instance = DatabaseHelp._privateConstructor();
 
   static Database? _database;
+
   Future<Database> get database async => _database ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {

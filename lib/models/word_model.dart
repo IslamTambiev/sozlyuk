@@ -7,11 +7,11 @@ class WordTranslation {
   WordTranslation({this.id, required this.slovo, this.perevod, this.lang});
 
   factory WordTranslation.fromMap(Map<String, dynamic> json) => WordTranslation(
-    id: json['id'],
-    slovo: json['slovo'],
-    perevod: json['perevod'],
-    lang: json['lang'],
-  );
+        id: json['id'],
+        slovo: json['slovo'],
+        perevod: json['perevod'],
+        lang: json['lang'],
+      );
 
   Map<String, dynamic> toMap() {
     return {

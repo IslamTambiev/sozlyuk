@@ -7,6 +7,7 @@ import '../models/word_model.dart';
 
 class SearchTab extends StatefulWidget {
   final VoidCallback? needUpdate;
+
   const SearchTab({super.key, required this.needUpdate});
 
   @override
@@ -45,8 +46,7 @@ class _SearchTabState extends State<SearchTab>
   Icon getIconForButton() {
     if (isInSaves) {
       return const Icon(Icons.star);
-    }
-    else {
+    } else {
       return const Icon(Icons.star_outline);
     }
   }
@@ -57,23 +57,24 @@ class _SearchTabState extends State<SearchTab>
     }
     String text = (await DatabaseHelper.instance.getOneTranslation(
         isButtonClicked ? 'slovarrkb' : 'slovarkbr', selectedId!))!;
-    setState((){result = text;});
+    setState(() {
+      result = text;
+    });
   }
 
   void saveWord() async {
     try {
       await SavedDatabaseHelper.instance.add(
           WordTranslation(id: selectedId, slovo: selectedWord, lang: lang));
-    }
-    catch (e){}
+    } catch (e) {}
   }
 
   void checkWord() async {
-    bool word = await SavedDatabaseHelper.instance.getOneTranslation(selectedId, lang);
-    if (word){
+    bool word =
+        await SavedDatabaseHelper.instance.getOneTranslation(selectedId, lang);
+    if (word) {
       isInSaves = true;
-    }
-    else{
+    } else {
       isInSaves = false;
     }
   }
@@ -181,17 +182,16 @@ class _SearchTabState extends State<SearchTab>
                             backgroundColor: Colors.indigoAccent.shade200,
                           ),
                           onPressed: () {
-                            if (isButtonClicked){
+                            if (isButtonClicked) {
                               lang = 1;
-                            }
-                            else{
+                            } else {
                               lang = 0;
                             }
-                            if(selectedWord != '' && !isInSaves){
+                            if (selectedWord != '' && !isInSaves) {
                               saveWord();
                               widget.needUpdate!();
                             }
-                            if(selectedWord != '' && isInSaves){
+                            if (selectedWord != '' && isInSaves) {
                               deleteWord();
                             }
                             setState(() {

@@ -92,7 +92,12 @@ class _SavedTabState extends State<SavedTab>
                         AsyncSnapshot<List<WordTranslation>> snapshot) {
                       if (isvisible) {
                         return WillPopScope(
-                          onWillPop: () async { setState(() {isvisible = false;}); return false; },
+                          onWillPop: () async {
+                            setState(() {
+                              isvisible = false;
+                            });
+                            return false;
+                          },
                           child: Column(children: [
                             Row(
                               children: [
@@ -102,7 +107,8 @@ class _SavedTabState extends State<SavedTab>
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
                                       child: Text(
                                         selectedWord,
@@ -127,7 +133,8 @@ class _SavedTabState extends State<SavedTab>
                                   child: Html(
                                     data: result,
                                     style: {
-                                      "body": Style(fontSize: const FontSize(19))
+                                      "body":
+                                          Style(fontSize: const FontSize(19))
                                     },
                                   ),
                                 ),

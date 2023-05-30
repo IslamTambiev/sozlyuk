@@ -7,9 +7,12 @@ import 'package:sozlyuk/models/word_model.dart';
 
 class SavedDatabaseHelper {
   SavedDatabaseHelper._privateConstructor();
-  static final SavedDatabaseHelper instance = SavedDatabaseHelper._privateConstructor();
+
+  static final SavedDatabaseHelper instance =
+      SavedDatabaseHelper._privateConstructor();
 
   static Database? _database;
+
   Future<Database> get database async => _database ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {
@@ -50,7 +53,8 @@ class SavedDatabaseHelper {
 
   Future<bool> getOneTranslation(int? id, int? lang) async {
     Database db = await instance.database;
-    var word = await db.query('saves', where: 'id = ? AND lang = ?', whereArgs: [id, lang]);
+    var word = await db
+        .query('saves', where: 'id = ? AND lang = ?', whereArgs: [id, lang]);
     if (word.isEmpty) {
       return false;
     } else {
@@ -66,6 +70,7 @@ class SavedDatabaseHelper {
 
   Future<int> remove(int? id, int? lang) async {
     Database db = await instance.database;
-    return await db.delete('saves', where: 'id = ? AND lang = ?', whereArgs: [id, lang]);
+    return await db
+        .delete('saves', where: 'id = ? AND lang = ?', whereArgs: [id, lang]);
   }
 }
