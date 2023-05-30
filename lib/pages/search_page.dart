@@ -296,7 +296,6 @@ class _SearchTabState extends State<SearchTab>
                                             ),
                                           ),
                                           onTap: () {
-                                            checkWord();
                                             setState(() {
                                               selectedWord = word.slovo;
                                               selectedId = word.id;
@@ -305,6 +304,7 @@ class _SearchTabState extends State<SearchTab>
                                                   ?.unfocus();
                                               isvisible = false;
                                             });
+                                            checkWord();
                                           },
                                         ),
                                       ),
