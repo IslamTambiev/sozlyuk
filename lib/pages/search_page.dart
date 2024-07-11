@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:never_behind_keyboard/never_behind_keyboard.dart';
 import '../services/db.dart';
 import '../services/saved_db.dart';
@@ -20,7 +20,7 @@ class _SearchTabState extends State<SearchTab>
   late String searchingWord;
   late String selectedWord;
   late String result;
-  late bool isvisible;
+  late bool isVisible;
   late bool isButtonClicked;
   late bool isInSaves;
   late int lang;
@@ -31,7 +31,7 @@ class _SearchTabState extends State<SearchTab>
     searchingWord = '';
     selectedWord = '';
     result = '';
-    isvisible = false;
+    isVisible = false;
     isButtonClicked = false;
     isInSaves = false;
     lang = 0;
@@ -123,7 +123,7 @@ class _SearchTabState extends State<SearchTab>
                     ),
                     style: const TextStyle(fontSize: 20),
                     onChanged: (value) {
-                      isvisible = true;
+                      isVisible = true;
                       searchWord(value);
                     },
                   ),
@@ -215,9 +215,9 @@ class _SearchTabState extends State<SearchTab>
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: SingleChildScrollView(
-                        child: Html(
-                          data: result,
-                          style: {"body": Style(fontSize: const FontSize(19))},
+                        child: HtmlWidget(
+                          result,
+                          textStyle: const TextStyle(fontSize: 19),
                         ),
                       ),
                     ),
@@ -232,7 +232,7 @@ class _SearchTabState extends State<SearchTab>
                       if (!snapshot.hasData) {
                         return const Center(child: Text('Ищем...'));
                       }
-                      if (searchingWord == "" || !isvisible) {
+                      if (searchingWord == "" || !isVisible) {
                         return const Center();
                       }
                       return snapshot.data!.isEmpty
@@ -302,7 +302,7 @@ class _SearchTabState extends State<SearchTab>
                                               showTranslation();
                                               FocusManager.instance.primaryFocus
                                                   ?.unfocus();
-                                              isvisible = false;
+                                              isVisible = false;
                                             });
                                             checkWord();
                                           },

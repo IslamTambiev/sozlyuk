@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+// import 'package:flutter_html/flutter_html.dart';
 
 import '../services/db.dart';
 import '../services/saved_db.dart';
@@ -73,11 +74,11 @@ class _SavedTabState extends State<SavedTab>
           Expanded(
             child: Stack(
               children: <Widget>[
-                SizedBox.expand(
+                const SizedBox.expand(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           "Длительное нажатие удаляет слово из списка",
                           textAlign: TextAlign.center,
@@ -131,12 +132,9 @@ class _SavedTabState extends State<SavedTab>
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: SingleChildScrollView(
-                                  child: Html(
-                                    data: result,
-                                    style: {
-                                      "body":
-                                          Style(fontSize: const FontSize(19))
-                                    },
+                                  child: HtmlWidget(
+                                    result,
+                                    textStyle: const TextStyle(fontSize: 19),
                                   ),
                                 ),
                               ),

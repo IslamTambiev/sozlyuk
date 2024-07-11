@@ -11,9 +11,9 @@ class InfoTab extends StatelessWidget {
         child: Container(
           color: Colors.indigo.shade500,
           padding: const EdgeInsets.all(16.0),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
+            children: [
               Text(
                 'Сёзлюк',
                 style: TextStyle(
