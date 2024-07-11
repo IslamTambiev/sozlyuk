@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sozlyuk/router/router.dart';
+import 'package:sozlyuk/ui/theme/theme.dart';
 
 import 'pages/search_page.dart';
 import 'pages/info_page.dart';
@@ -9,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //await DB.init();
-  runApp(const MyApp1());
+  runApp(const MyApp());
 }
 
 // class MyApp extends StatelessWidget {
@@ -24,8 +26,15 @@ void main() async {
 //   }
 // }
 
-class MyApp1 extends StatelessWidget {
-  const MyApp1({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +42,12 @@ class MyApp1 extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.black38, // Change the color here
     ));
-    final ThemeData theme = ThemeData();
-    return MaterialApp(
-      home: const MyHomePage(),
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-            primary: Colors.indigo.shade500,
-            secondary: Colors.indigoAccent.shade200),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+
+    return MaterialApp.router(
+      //home: const MyHomePage(),
+      title: 'Сёзлюк title',
+      theme: lightTheme,
+      routerConfig: _appRouter.config(),
     );
   }
 }

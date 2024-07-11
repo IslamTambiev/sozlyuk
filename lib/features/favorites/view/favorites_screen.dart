@@ -1,19 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
-import '../services/db.dart';
-import '../services/saved_db.dart';
-import '../models/word_model.dart';
+import '../../../services/db.dart';
+import '../../../services/saved_db.dart';
+import '../../../models/word_model.dart';
 
-class SavedTab extends StatefulWidget {
-  const SavedTab({super.key});
+@RoutePage()
+class SavedScreen extends StatefulWidget {
+  const SavedScreen({super.key});
 
   @override
-  State<SavedTab> createState() => _SavedTabState();
+  State<SavedScreen> createState() => _SavedScreenState();
 }
 
-class _SavedTabState extends State<SavedTab>
-    with AutomaticKeepAliveClientMixin<SavedTab> {
+class _SavedScreenState extends State<SavedScreen>
+    with AutomaticKeepAliveClientMixin<SavedScreen> {
   int? selectedId;
   late String searchingWord;
   late String selectedWord;
@@ -109,7 +111,7 @@ class _SavedTabState extends State<SavedTab>
                                       decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.2),
                                         borderRadius:
-                                            BorderRadius.circular(8.0),
+                                        BorderRadius.circular(8.0),
                                       ),
                                       child: Text(
                                         selectedWord,
@@ -147,60 +149,60 @@ class _SavedTabState extends State<SavedTab>
                       }
                       return snapshot.data!.isEmpty
                           ? const Center(
-                              child: Text(
-                              'Нет сохранённых слов',
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ))
+                          child: Text(
+                            'Нет сохранённых слов',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ))
                           : ListView(
-                              //shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              children: snapshot.data!.map((word) {
-                                return Center(
-                                  child: Card(
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 1),
-                                    color: Colors.blue.shade50,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: BorderSide(
-                                        color: Colors.grey.withOpacity(0.3),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    elevation: 2,
-                                    child: ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 16),
-                                      title: Text(
-                                        word.slovo,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: selectedId == word.id
-                                              ? Colors.black
-                                              : Colors.grey[800],
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          selectedWord = word.slovo;
-                                          selectedId = word.id;
-                                          lang = word.lang;
-                                          showTranslation();
-                                          isvisible = true;
-                                        });
-                                      },
-                                      onLongPress: () {
-                                        deleteTranslation(word.id, word.lang);
-                                      },
-                                    ),
+                        //shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: snapshot.data!.map((word) {
+                          return Center(
+                            child: Card(
+                              margin:
+                              const EdgeInsets.symmetric(vertical: 1),
+                              color: Colors.blue.shade50,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  width: 1.0,
+                                ),
+                              ),
+                              elevation: 2,
+                              child: ListTile(
+                                contentPadding:
+                                const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 16),
+                                title: Text(
+                                  word.slovo,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: selectedId == word.id
+                                        ? Colors.black
+                                        : Colors.grey[800],
                                   ),
-                                );
-                              }).toList(),
-                            );
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    selectedWord = word.slovo;
+                                    selectedId = word.id;
+                                    lang = word.lang;
+                                    showTranslation();
+                                    isvisible = true;
+                                  });
+                                },
+                                onLongPress: () {
+                                  deleteTranslation(word.id, word.lang);
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
                     }),
               ],
             ),
