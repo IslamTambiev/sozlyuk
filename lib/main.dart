@@ -126,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage>
               setState(() {});
             },
           ),
-          SavedTab(),
+          const SavedTab(),
           const InfoTab(),
         ],
       ),

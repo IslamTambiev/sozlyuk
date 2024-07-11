@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:sozlyuk/features/favorites/favorites.dart';
 import 'package:sozlyuk/features/home/home.dart';
 import 'package:sozlyuk/features/search/search.dart';

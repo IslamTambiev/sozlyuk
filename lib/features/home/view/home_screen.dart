@@ -8,7 +8,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return AutoTabsRouter(
       routes: const [
         SearchRoute(),
@@ -28,12 +27,14 @@ class HomeScreen extends StatelessWidget {
                   ? const Icon(Icons.search)
                   : const Icon(Icons.search_outlined),
                 label: 'Поиск',
+                tooltip: '',
               ),
               NavigationDestination(
                 icon: tabsRouter.activeIndex == 1
                     ? const Icon(Icons.bookmark)
                     : const Icon(Icons.bookmark_outline),
                 label: 'Избранное',
+                tooltip: '',
               ),
               // BottomNavigationBarItem(
               //   icon: Icon(Icons.history),
@@ -44,6 +45,7 @@ class HomeScreen extends StatelessWidget {
                     ? const Icon(Icons.settings)
                     : const Icon(Icons.settings_outlined),
                 label: 'Настройки',
+                tooltip: '',
               ),
             ],
           ),

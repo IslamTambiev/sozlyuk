@@ -38,4 +38,4 @@ final lightTheme = ThemeData(
   // ),
 );
 
-final textTheme = const TextTheme();
+const textTheme = TextTheme();

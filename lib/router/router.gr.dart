@@ -24,7 +24,7 @@ abstract class _$AppRouter extends RootStackRouter {
     InfoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const InfoScreen(),
+        child: const SettingsScreen(),
       );
     },
     SavedRoute.name: (routeData) {
@@ -57,7 +57,7 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [InfoScreen]
+/// [SettingsScreen]
 class InfoRoute extends PageRouteInfo<void> {
   const InfoRoute({List<PageRouteInfo>? children})
       : super(
