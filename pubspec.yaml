@@ -1,5 +1,5 @@
 name: sozlyuk
-description: A new Flutter project.
+description: Карачаево-балкаро - русский и русско - карачаево-балкарский словарь.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -32,6 +32,7 @@ dependencies:
   flutter_widget_from_html_core: ^0.15.1
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
+  package_info_plus: ^8.0.0
 
 dev_dependencies:
   flutter_test:

@@ -5,14 +5,16 @@ final secondaryColor = Colors.indigo.shade500;
 
 final darkTheme = ThemeData(
   useMaterial3: true,
-  primaryColor: primaryColor,
-  textTheme: _textTheme,
+  colorSchemeSeed: Colors.indigo,
+  brightness: Brightness.dark,
+  // primaryColor: primaryColor,
+  // textTheme: _textTheme,
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: primaryColor,
-    secondary: secondaryColor,
-    brightness: Brightness.dark,
-  ),
+  // colorScheme: ColorScheme.fromSeed(
+  //   seedColor: primaryColor,
+  //   secondary: secondaryColor,
+  //   brightness: Brightness.dark,
+  // ),
 );
 
 final lightTheme = ThemeData(
