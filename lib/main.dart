@@ -5,10 +5,6 @@ import 'package:sozlyuk/bloc/theme/theme_cubit.dart';
 import 'package:sozlyuk/router/router.dart';
 import 'package:sozlyuk/ui/theme/theme.dart';
 
-import 'pages/search_page.dart';
-import 'pages/info_page.dart';
-import 'pages/saved_page.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
