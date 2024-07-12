@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sozlyuk/bloc/theme/theme_cubit.dart';
 import 'package:sozlyuk/features/settings/settings.dart';
-import 'package:sozlyuk/ui/ui.dart';
 
 @RoutePage()
 class SettingsScreen extends StatelessWidget {
