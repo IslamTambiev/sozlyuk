@@ -45,7 +45,9 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp.router(
             //home: const MyHomePage(),
             title: 'Сёзлюк',
-            theme: state.isDark ? darkTheme : lightTheme,
+            themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,
+            theme: lightTheme,
+            darkTheme: darkTheme,
             routerConfig: _appRouter.config(),
           );
         },
