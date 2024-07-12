@@ -117,7 +117,7 @@ class _AboutAppInfoState extends State<AboutAppInfo> {
             );
           },
           child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Row(
