@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
           body: child,
           bottomNavigationBar: NavigationBar(
             selectedIndex: tabsRouter.activeIndex,
+            height: 80,
             onDestinationSelected: (index) => _openPage(index, tabsRouter),
             destinations: [
               NavigationDestination(

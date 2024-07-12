@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       //home: const MyHomePage(),
       title: 'Сёзлюк title',
-      theme: lightTheme,
+      theme: darkTheme,
       routerConfig: _appRouter.config(),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sozlyuk/features/settings/settings.dart';
+import 'package:sozlyuk/ui/ui.dart';
 
 @RoutePage()
 class SettingsScreen extends StatelessWidget {
@@ -30,6 +31,55 @@ class SettingsScreen extends StatelessWidget {
             title: 'Темная тема',
             value: false,
             onChanged: (value) {},
+          ),
+        ),
+        // SliverToBoxAdapter(
+        //   child: SettingsMenuCard(
+        //     title: 'Темная тема',
+        //     value: false,
+        //     onChanged: (value) {},
+        //   ),
+        // ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 8),
+            child: BaseContainer(
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+              child: TextButton(
+                style: ButtonStyle(
+                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)))),
+                onPressed: () {
+                  showAboutDialog(
+                    context: context,
+                    applicationIcon:
+                        Image.asset('assets/images/icon.png', height: 80),
+                    applicationName: 'Сёзлюк',
+                    applicationVersion: '1.0.1',
+                    children: [
+                      const Text(
+                          'Карачаево-балкаро - русский и русско - карачаево-балкарский словарь.'),
+                    ],
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline),
+                        SizedBox(width: 10),
+                        Text('О приложении',
+                            style: TextStyle(fontSize: 18),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
         SliverFillRemaining(

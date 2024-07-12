@@ -17,15 +17,18 @@ class BaseContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      width: width,
-      margin: margin,
-      padding: padding,
-      decoration: BoxDecoration(
-        color: theme.highlightColor,
-        borderRadius: BorderRadius.circular(10),
+    return Material(
+      borderRadius: BorderRadius.circular(10),
+      elevation: 3.0,
+      shadowColor: Colors.transparent,
+      surfaceTintColor: theme.colorScheme.primary,
+      type: MaterialType.card,
+      child: Container(
+        width: width,
+        margin: margin,
+        padding: padding,
+        child: child,
       ),
-      child: child,
     );
   }
 }

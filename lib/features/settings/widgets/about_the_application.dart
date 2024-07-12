@@ -10,7 +10,7 @@ class AboutTheApplication extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('О приложении',
+        Text('Словари',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 24,
