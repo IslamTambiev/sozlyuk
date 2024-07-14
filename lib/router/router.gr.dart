@@ -30,7 +30,7 @@ abstract class _$AppRouter extends RootStackRouter {
     SavedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SavedScreen(),
+        child: const FavoritesScreen(),
       );
     },
     SearchRoute.name: (routeData) {
@@ -71,7 +71,7 @@ class InfoRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SavedScreen]
+/// [FavoritesScreen]
 class SavedRoute extends PageRouteInfo<void> {
   const SavedRoute({List<PageRouteInfo>? children})
       : super(

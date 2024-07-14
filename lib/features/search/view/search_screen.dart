@@ -269,17 +269,17 @@ class _SearchScreenState extends State<SearchScreen>
                         return snapshot.data!.isEmpty
                             ? Center(
                                 child: Container(
-                                height: 30,
-                                width: 200,
+                                height: 50,
+                                width: 250,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.7),
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: theme.colorScheme.surface.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Нет такого слова.',
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: theme.colorScheme.onSurface,
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -310,7 +310,7 @@ class _SearchScreenState extends State<SearchScreen>
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             side: BorderSide(
-                                              color: theme.colorScheme.secondary
+                                              color: theme.colorScheme.outline
                                                   .withOpacity(0.3),
                                               width: 1.0,
                                             ),
