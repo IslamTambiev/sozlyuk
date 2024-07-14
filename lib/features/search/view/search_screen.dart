@@ -45,14 +45,6 @@ class _SearchScreenState extends State<SearchScreen>
     });
   }
 
-  Icon getIconForButton() {
-    if (isInSaves) {
-      return const Icon(Icons.star);
-    } else {
-      return const Icon(Icons.star_outline);
-    }
-  }
-
   void showTranslation() async {
     if (selectedId == null) {
       result = "Что-то пошло не так.";
@@ -229,7 +221,9 @@ class _SearchScreenState extends State<SearchScreen>
                               });
                               checkWord();
                             },
-                            child: getIconForButton(),
+                            child: isInSaves
+                                ? const Icon(Icons.star)
+                                : const Icon(Icons.star_outline),
                           ),
                         ),
                       ],
@@ -273,7 +267,8 @@ class _SearchScreenState extends State<SearchScreen>
                                 width: 250,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: theme.colorScheme.surface.withOpacity(0.9),
+                                  color: theme.colorScheme.surface
+                                      .withOpacity(0.9),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: Text(
