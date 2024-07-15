@@ -3,7 +3,7 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 import 'package:never_behind_keyboard/never_behind_keyboard.dart';
 import '../repositories/db/db.dart';
 import '../repositories/db/favorites_db.dart';
-import '../models/word_model.dart';
+import '../repositories/models/word_model.dart';
 
 class SearchTab extends StatefulWidget {
   final VoidCallback? needUpdate;

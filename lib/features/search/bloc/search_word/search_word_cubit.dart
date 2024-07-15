@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/word_model.dart';
 import '../../../../repositories/db/db.dart';
 import '../../../../repositories/db/favorites_db.dart';
+import '../../../../repositories/models/word_model.dart';
 
 part 'search_word_state.dart';
 

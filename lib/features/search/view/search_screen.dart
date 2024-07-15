@@ -5,7 +5,7 @@ import 'package:never_behind_keyboard/never_behind_keyboard.dart';
 import 'package:sozlyuk/features/search/bloc/search_word/search_word_cubit.dart';
 import 'package:sozlyuk/features/search/widgets/widgets.dart';
 import '../../../repositories/db/db.dart';
-import '../../../models/word_model.dart';
+import '../../../repositories/models/word_model.dart';
 
 @RoutePage()
 class SearchScreen extends StatefulWidget {

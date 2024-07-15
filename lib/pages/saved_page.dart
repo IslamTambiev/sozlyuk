@@ -3,7 +3,7 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 
 import '../repositories/db/db.dart';
 import '../repositories/db/favorites_db.dart';
-import '../models/word_model.dart';
+import '../repositories/models/word_model.dart';
 
 class SavedTab extends StatefulWidget {
   const SavedTab({super.key});

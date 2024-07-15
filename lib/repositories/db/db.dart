@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:sozlyuk/models/word_model.dart';
+import 'package:sozlyuk/repositories/models/word_model.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
