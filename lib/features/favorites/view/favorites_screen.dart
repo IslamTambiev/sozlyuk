@@ -86,7 +86,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                             "Длительное нажатие удаляет слово из списка",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: theme.colorScheme.onSurface,
+                              color: theme.colorScheme.onSurface.withOpacity(0.5),
                               fontSize: 16,
                             ),
                           ),
