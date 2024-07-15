@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:never_behind_keyboard/never_behind_keyboard.dart';
-import '../services/db.dart';
-import '../services/saved_db.dart';
+import '../repositories/db/db.dart';
+import '../repositories/db/favorites_db.dart';
 import '../models/word_model.dart';
 
 class SearchTab extends StatefulWidget {

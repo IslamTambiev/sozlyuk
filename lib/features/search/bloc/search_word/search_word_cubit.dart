@@ -1,33 +1,33 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/word_model.dart';
-import '../../../../services/db.dart';
-import '../../../../services/saved_db.dart';
+import '../../../../repositories/db/db.dart';
+import '../../../../repositories/db/favorites_db.dart';
 
 part 'search_word_state.dart';
 
 class SearchWordCubit extends Cubit<SearchWordState> {
   SearchWordCubit() : super(const SearchWordState());
 
-  void showTranslation() async {
+  void showTranslation(String word, int? id) async {
     final String result;
-    if (state.selectedId == null) {
+    if (id == null) {
       result = "Что-то пошло не так.";
     } else {
       result = (await DatabaseHelper.instance.getOneTranslation(
-          state.isButtonClicked ? 'slovarrkb' : 'slovarkbr', state.selectedId!))!;
+          state.isButtonClicked ? 'slovarrkb' : 'slovarkbr', id))!;
     }
+    bool isWordInSaves = await SavedDatabaseHelper.instance
+        .getOneTranslation(id, state.isButtonClicked ? 1 : 0);
     emit(SearchWordState(
-      selectedId: state.selectedId,
+      selectedId: id,
       searchingWord: state.searchingWord,
-      selectedWord: state.selectedWord,
+      selectedWord: word,
       result: result,
-      isVisible: state.isVisible,
+      isVisible: false,
       isButtonClicked: state.isButtonClicked,
-      isInSaves: state.isInSaves,
-      lang: state.lang,
+      isInSaves: isWordInSaves,
     ));
   }
 
@@ -40,47 +40,84 @@ class SearchWordCubit extends Cubit<SearchWordState> {
       isVisible: state.isVisible,
       isButtonClicked: !state.isButtonClicked,
       isInSaves: state.isInSaves,
-      lang: state.lang,
     ));
   }
 
-  void saveWord() async {
-    try {
-      await SavedDatabaseHelper.instance.add(
-          WordTranslation(id: state.selectedId, slovo: state.selectedWord, lang: state.lang));
-    } catch (e) {
-      debugPrint(e.toString());
+  Future<void> deleteOrSaveWord() async {
+    if (state.selectedWord != '' && !state.isInSaves) {
+      await SavedDatabaseHelper.instance.add(WordTranslation(
+          id: state.selectedId,
+          slovo: state.selectedWord,
+          lang: state.isButtonClicked ? 1 : 0));
+      emit(SearchWordState(
+        selectedId: state.selectedId,
+        searchingWord: state.searchingWord,
+        selectedWord: state.selectedWord,
+        result: state.result,
+        isVisible: state.isVisible,
+        isButtonClicked: state.isButtonClicked,
+        isInSaves: true,
+      ));
+    } else if (state.selectedWord != '' && state.isInSaves) {
+      await SavedDatabaseHelper.instance
+          .remove(state.selectedId, state.isButtonClicked ? 1 : 0);
+      emit(SearchWordState(
+        selectedId: state.selectedId,
+        searchingWord: state.searchingWord,
+        selectedWord: state.selectedWord,
+        result: state.result,
+        isVisible: state.isVisible,
+        isButtonClicked: state.isButtonClicked,
+        isInSaves: false,
+      ));
     }
   }
 
-  void checkWord() async {
-    bool isWordInSaves =
-    await SavedDatabaseHelper.instance.getOneTranslation(state.selectedId, state.lang);
-    emit(SearchWordState(
-      selectedId: state.selectedId,
-      searchingWord: state.searchingWord,
-      selectedWord: state.selectedWord,
-      result: state.result,
-      isVisible: state.isVisible,
-      isButtonClicked: state.isButtonClicked,
-      isInSaves: isWordInSaves,
-      lang: state.lang,
-    ));
-  }
-
-  void deleteWord() async {
-    await SavedDatabaseHelper.instance.remove(state.selectedId, state.lang);
-    emit(SearchWordState(
-      selectedId: state.selectedId,
-      searchingWord: state.searchingWord,
-      selectedWord: state.selectedWord,
-      result: state.result,
-      isVisible: state.isVisible,
-      isButtonClicked: state.isButtonClicked,
-      isInSaves: false,
-      lang: state.lang,
-    ));
-  }
+  // void checkWord() async {
+  //   bool isWordInSaves = await SavedDatabaseHelper.instance
+  //       .getOneTranslation(state.selectedId, state.lang);
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: isWordInSaves,
+  //     lang: state.lang,
+  //   ));
+  // }
+  // void saveWord() async {
+  //   try {
+  //     await SavedDatabaseHelper.instance.add(WordTranslation(
+  //         id: state.selectedId, slovo: state.selectedWord, lang: state.lang));
+  //     emit(SearchWordState(
+  //       selectedId: state.selectedId,
+  //       searchingWord: state.searchingWord,
+  //       selectedWord: state.selectedWord,
+  //       result: state.result,
+  //       isVisible: state.isVisible,
+  //       isButtonClicked: state.isButtonClicked,
+  //       isInSaves: true,
+  //       lang: state.lang,
+  //     ));
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
+  // void deleteWord() async {
+  //   await SavedDatabaseHelper.instance.remove(state.selectedId, state.lang);
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: false,
+  //     lang: state.lang,
+  //   ));
+  // }
 
   void searchWord(String word) {
     emit(SearchWordState(
@@ -88,23 +125,84 @@ class SearchWordCubit extends Cubit<SearchWordState> {
       searchingWord: word,
       selectedWord: state.selectedWord,
       result: state.result,
-      isVisible: state.isVisible,
+      isVisible: true,
       isButtonClicked: state.isButtonClicked,
       isInSaves: state.isInSaves,
-      lang: state.lang,
     ));
   }
 
-  void setVisible() {
-    emit(SearchWordState(
-      selectedId: state.selectedId,
-      searchingWord: state.searchingWord,
-      selectedWord: state.selectedWord,
-      result: state.result,
-      isVisible: !state.isVisible,
-      isButtonClicked: state.isButtonClicked,
-      isInSaves: state.isInSaves,
-      lang: state.lang,
-    ));
-  }
+  // void setVisible() {
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: !state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: state.isInSaves,
+  //   ));
+  // }
+
+  // void setVisibleTrue() {
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: true,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: state.isInSaves,
+  //   ));
+  // }
+
+  // void setLang(int lang) {
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: state.isInSaves,
+  //     lang: lang,
+  //   ));
+  // }
+
+  // void setIsInSavesTrue() {
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: true,
+  //   ));
+  // }
+
+  // void setIsInSavesFalse() {
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: state.selectedWord,
+  //     result: state.result,
+  //     isVisible: state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: false,
+  //     // lang: state.lang,
+  //   ));
+  // }
+
+  // void chooseWord(String word) {
+  //   emit(SearchWordState(
+  //     selectedId: state.selectedId,
+  //     searchingWord: state.searchingWord,
+  //     selectedWord: word,
+  //     result: state.result,
+  //     isVisible: state.isVisible,
+  //     isButtonClicked: state.isButtonClicked,
+  //     isInSaves: state.isInSaves,
+  //     lang: state.lang,
+  //   ));
+  // }
 }

@@ -9,7 +9,6 @@ class SearchWordState extends Equatable {
     this.isVisible = false,
     this.isButtonClicked = false,
     this.isInSaves = false,
-    this.lang = 0,
   });
   final int? selectedId;
   final String searchingWord;
@@ -18,7 +17,6 @@ class SearchWordState extends Equatable {
   final bool isVisible;
   final bool isButtonClicked;
   final bool isInSaves;
-  final int lang;
 
   @override
   List<Object?> get props => [
@@ -29,6 +27,5 @@ class SearchWordState extends Equatable {
         isVisible,
         isButtonClicked,
         isInSaves,
-        lang,
       ];
 }
