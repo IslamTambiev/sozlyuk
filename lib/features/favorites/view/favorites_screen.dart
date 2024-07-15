@@ -77,21 +77,22 @@ class _FavoritesScreenState extends State<FavoritesScreen>
             Expanded(
               child: Stack(
                 children: <Widget>[
-                  SizedBox.expand(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Длительное нажатие удаляет слово из списка",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: theme.colorScheme.onSurface.withOpacity(0.5),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ]),
-                  ),
+                  const SizedBox.shrink(),
+                  // SizedBox.expand(
+                  //   child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.end,
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       children: [
+                  //         Text(
+                  //           "Длительное нажатие удаляет слово из списка",
+                  //           textAlign: TextAlign.center,
+                  //           style: TextStyle(
+                  //             color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  //             fontSize: 16,
+                  //           ),
+                  //         ),
+                  //       ]),
+                  // ),
                   RefreshIndicator(
                     onRefresh: () async {
                       setState(() {});
@@ -168,14 +169,18 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                                 child: CircularProgressIndicator());
                           }
                           return snapshot.data!.isEmpty
-                              ? ListView(children: const [
-                                  Center(
+                              ? Stack(children: [
+                                  const Center(
                                       child: Text(
                                     'Нет сохранённых слов',
                                     style: TextStyle(
                                       fontSize: 20,
                                     ),
                                   )),
+                                  ListView(
+                                      children: const [
+                                        SizedBox.shrink(),
+                                      ]),
                                 ])
                               : ListView(
                                   //shrinkWrap: true,
@@ -199,6 +204,16 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                                         ),
                                         elevation: 0.0,
                                         child: ListTile(
+                                          trailing: IconButton(
+                                            icon: Icon(
+                                              Icons.delete_outline,
+                                              color: theme.colorScheme.tertiary,
+                                            ),
+                                            onPressed: () {
+                                              deleteTranslation(
+                                                  word.id, word.lang);
+                                            },
+                                          ),
                                           contentPadding:
                                               const EdgeInsets.symmetric(
                                                   vertical: 0, horizontal: 16),
@@ -224,10 +239,10 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                                               isvisible = true;
                                             });
                                           },
-                                          onLongPress: () {
-                                            deleteTranslation(
-                                                word.id, word.lang);
-                                          },
+                                          // onLongPress: () {
+                                          //   deleteTranslation(
+                                          //       word.id, word.lang);
+                                          // },
                                         ),
                                       ),
                                     );
