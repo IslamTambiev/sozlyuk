@@ -49,7 +49,7 @@ class SearchWordCubit extends Cubit<SearchWordState> {
           id: state.selectedId,
           slovo: state.selectedWord,
           lang: state.isButtonClicked ? 1 : 0));
-      emit(SearchWordState(
+      emit(WordSavedOrDeleted(
         selectedId: state.selectedId,
         searchingWord: state.searchingWord,
         selectedWord: state.selectedWord,
@@ -61,7 +61,7 @@ class SearchWordCubit extends Cubit<SearchWordState> {
     } else if (state.selectedWord != '' && state.isInSaves) {
       await SavedDatabaseHelper.instance
           .remove(state.selectedId, state.isButtonClicked ? 1 : 0);
-      emit(SearchWordState(
+      emit(WordSavedOrDeleted(
         selectedId: state.selectedId,
         searchingWord: state.searchingWord,
         selectedWord: state.selectedWord,
@@ -83,5 +83,19 @@ class SearchWordCubit extends Cubit<SearchWordState> {
       isButtonClicked: state.isButtonClicked,
       isInSaves: state.isInSaves,
     ));
+  }
+
+  void updateFavoriteButton(int? id, bool isButtonClicked) {
+    if (!state.isVisible && id != null && state.selectedId == id) {
+      emit(SearchWordState(
+        selectedId: state.selectedId,
+        searchingWord: state.searchingWord,
+        selectedWord: state.selectedWord,
+        result: state.result,
+        isVisible: state.isVisible,
+        isButtonClicked: state.isButtonClicked,
+        isInSaves: false,
+      ));
+    }
   }
 }

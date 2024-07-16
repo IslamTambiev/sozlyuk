@@ -29,3 +29,15 @@ class SearchWordState extends Equatable {
         isInSaves,
       ];
 }
+
+class WordSavedOrDeleted extends SearchWordState {
+  const WordSavedOrDeleted({
+    super.selectedId,
+    super.searchingWord,
+    super.selectedWord,
+    super.result,
+    super.isVisible,
+    super.isButtonClicked,
+    super.isInSaves,
+  });
+}

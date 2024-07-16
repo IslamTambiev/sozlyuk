@@ -1,0 +1,1 @@
+export 'favorite_word_card.dart';

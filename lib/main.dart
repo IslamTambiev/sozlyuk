@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sozlyuk/bloc/theme/theme_cubit.dart';
+import 'package:sozlyuk/features/favorites/bloc/favorite_word_cubit.dart';
+import 'package:sozlyuk/features/search/bloc/search_word/search_word_cubit.dart';
 import 'package:sozlyuk/repositories/settings/settings.dart';
 import 'package:sozlyuk/router/router.dart';
 import 'package:sozlyuk/ui/theme/theme.dart';
@@ -34,11 +36,14 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.black38, // Change the color here
     ));
+
     final settingsRepository = SettingsRepository(preferences: widget.preferences);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeCubit(settingsRepository: settingsRepository)),
+        BlocProvider(create: (context) => SearchWordCubit()),
+        BlocProvider(create: (context) => FavoriteWordCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
