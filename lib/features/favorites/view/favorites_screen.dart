@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:sozlyuk/features/favorites/bloc/favorite_word_cubit.dart';
+import 'package:sozlyuk/features/favorites/widgets/widgets.dart';
 import 'package:sozlyuk/features/search/bloc/search_word/search_word_cubit.dart';
 
 import '../../../repositories/db/favorites_db.dart';
@@ -77,59 +77,12 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                                       return;
                                     }
                                   },
-                                  child: Column(children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: theme.colorScheme
-                                                    .primaryContainer,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              child: Text(
-                                                context
-                                                    .watch<FavoriteWordCubit>()
-                                                    .state
-                                                    .selectedWord,
-                                                style: TextStyle(
-                                                    color: theme.colorScheme
-                                                        .onPrimaryContainer,
-                                                    fontSize: 22,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 16.0),
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(10.0),
-                                        decoration: BoxDecoration(
-                                          color: theme
-                                              .colorScheme.secondaryContainer,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        child: SingleChildScrollView(
-                                          child: HtmlWidget(
-                                            context
-                                                .watch<FavoriteWordCubit>()
-                                                .state
-                                                .result,
-                                            textStyle: TextStyle(
-                                                fontSize: 19,
-                                                color: theme.colorScheme
-                                                    .onSecondaryContainer),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  child: const Column(children: [
+                                    Row(children: [
+                                      Expanded(child: SelectedWordLine())
+                                    ]),
+                                    SizedBox(height: 16.0),
+                                    Expanded(child: ResultField()),
                                   ]),
                                 );
                               }
@@ -140,13 +93,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                               }
                               return snapshot.data!.isEmpty
                                   ? Stack(children: [
-                                      const Center(
-                                          child: Text(
-                                        'Нет сохранённых слов',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      )),
+                                      const FavoritesNotFound(),
                                       ListView(children: const [
                                         SizedBox.shrink(),
                                       ]),
