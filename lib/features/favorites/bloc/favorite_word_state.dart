@@ -7,6 +7,7 @@ class FavoriteWordState extends Equatable {
     this.result = "",
     this.isVisible = false,
     this.lang,
+    this.favoriteWords = const [],
   });
 
   final int? selectedId;
@@ -14,6 +15,7 @@ class FavoriteWordState extends Equatable {
   final String result;
   final bool isVisible;
   final int? lang;
+  final List<WordTranslation> favoriteWords;
 
   @override
   List<Object?> get props => [
@@ -22,5 +24,6 @@ class FavoriteWordState extends Equatable {
         result,
         isVisible,
         lang,
+        favoriteWords,
       ];
 }

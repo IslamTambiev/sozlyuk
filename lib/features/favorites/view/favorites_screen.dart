@@ -22,6 +22,12 @@ class _FavoritesScreenState extends State<FavoritesScreen>
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<FavoriteWordCubit>().getFavoriteWords();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     final theme = Theme.of(context);
@@ -52,131 +58,180 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                       //       ]),
                       // ),
                       RefreshIndicator(
-                        onRefresh: () async {
-                          setState(() {});
-                        },
-                        child: FutureBuilder<List<WordTranslation>>(
-                            future:
-                                SavedDatabaseHelper.instance.getTranslation(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<WordTranslation>> snapshot) {
-                              if (context
+                          onRefresh: () async {
+                            context
+                                .read<FavoriteWordCubit>()
+                                .getFavoriteWords();
+                          },
+                          child: context
                                   .watch<FavoriteWordCubit>()
                                   .state
-                                  .isVisible) {
-                                return PopScope(
-                                  canPop: false,
-                                  onPopInvoked: (didPop) async {
-                                    context
-                                        .read<FavoriteWordCubit>()
-                                        .setIsVisibleFalse();
-                                    bool canPop = Navigator.canPop(context);
-                                    if (canPop) {
-                                      Navigator.pop(context);
-                                    } else {
-                                      return;
-                                    }
-                                  },
-                                  child: const Column(children: [
-                                    Row(children: [
-                                      Expanded(child: SelectedWordLine())
-                                    ]),
-                                    SizedBox(height: 16.0),
-                                    Expanded(child: ResultField()),
+                                  .favoriteWords
+                                  .isEmpty
+                              ? Stack(children: [
+                                  const FavoritesNotFound(),
+                                  ListView(children: const [
+                                    SizedBox.shrink(),
                                   ]),
-                                );
-                              }
+                                ])
+                              : ListView(
+                                  // shrinkWrap: true,
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  children: state.favoriteWords.map((word) {
+                                    return FavoriteWordCard(word: word);
+                                  }).toList(),
+                                )
 
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              return snapshot.data!.isEmpty
-                                  ? Stack(children: [
-                                      const FavoritesNotFound(),
-                                      ListView(children: const [
-                                        SizedBox.shrink(),
-                                      ]),
-                                    ])
-                                  : ListView(
-                                      // shrinkWrap: true,
-                                      physics:
-                                          const AlwaysScrollableScrollPhysics(),
-                                      children: snapshot.data!.map((word) {
-                                        return Center(
-                                          child: Card(
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 1),
-                                            color: theme
-                                                .colorScheme.primaryContainer,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              side: BorderSide(
-                                                color: theme.colorScheme.outline
-                                                    .withOpacity(0.3),
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                            elevation: 0.0,
-                                            child: ListTile(
-                                              trailing: IconButton(
-                                                icon: Icon(
-                                                  Icons.close_rounded,
-                                                  color: theme
-                                                      .colorScheme.tertiary,
-                                                ),
-                                                onPressed: () {
-                                                  context
-                                                      .read<FavoriteWordCubit>()
-                                                      .deleteTranslation(
-                                                          word.id, word.lang);
-                                                  setState(() {});
-                                                  BlocProvider.of<
-                                                              SearchWordCubit>(
-                                                          context)
-                                                      .updateFavoriteButton(
-                                                          word.id,
-                                                          word.lang == 1
-                                                              ? true
-                                                              : false);
-                                                },
-                                              ),
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 0,
-                                                      horizontal: 16),
-                                              title: Text(
-                                                word.slovo,
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: context
-                                                              .watch<
-                                                                  FavoriteWordCubit>()
-                                                              .state
-                                                              .selectedId ==
-                                                          word.id
-                                                      ? theme.colorScheme
-                                                          .onPrimaryContainer
-                                                          .withOpacity(0.4)
-                                                      : theme.colorScheme
-                                                          .onPrimaryContainer,
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                context
-                                                    .read<FavoriteWordCubit>()
-                                                    .showTranslation(word.id,
-                                                        word.slovo, word.lang!);
-                                              },
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    );
-                            }),
-                      ),
+                          // FutureBuilder<List<WordTranslation>>(
+                          //     future:
+                          //         SavedDatabaseHelper.instance.getTranslation(),
+                          //     builder: (BuildContext context,
+                          //         AsyncSnapshot<List<WordTranslation>> snapshot) {
+                          //       if (context
+                          //           .watch<FavoriteWordCubit>()
+                          //           .state
+                          //           .isVisible) {
+                          //         return PopScope(
+                          //           canPop: false,
+                          //           onPopInvoked: (didPop) async {
+                          //             context
+                          //                 .read<FavoriteWordCubit>()
+                          //                 .setIsVisibleFalse();
+                          //             bool canPop = Navigator.canPop(context);
+                          //             if (canPop) {
+                          //               Navigator.pop(context);
+                          //             } else {
+                          //               return;
+                          //             }
+                          //           },
+                          //           child: const Column(children: [
+                          //             Row(children: [
+                          //               Expanded(child: SelectedWordLine())
+                          //             ]),
+                          //             SizedBox(height: 16.0),
+                          //             Expanded(child: ResultField()),
+                          //           ]),
+                          //         );
+                          //       }
+                          //
+                          //       if (!snapshot.hasData) {
+                          //         return const Center(
+                          //             child: CircularProgressIndicator());
+                          //       }
+                          //       return snapshot.data!.isEmpty
+                          //           ? Stack(children: [
+                          //               const FavoritesNotFound(),
+                          //               ListView(children: const [
+                          //                 SizedBox.shrink(),
+                          //               ]),
+                          //             ])
+                          //           : ListView(
+                          //               // shrinkWrap: true,
+                          //               physics:
+                          //                   const AlwaysScrollableScrollPhysics(),
+                          //               children: snapshot.data!.map((word) {
+                          //                 return Center(
+                          //                   child: Card(
+                          //                     margin: const EdgeInsets.symmetric(
+                          //                         vertical: 1),
+                          //                     color: theme
+                          //                         .colorScheme.primaryContainer,
+                          //                     shape: RoundedRectangleBorder(
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(10.0),
+                          //                       side: BorderSide(
+                          //                         color: theme.colorScheme.outline
+                          //                             .withOpacity(0.3),
+                          //                         width: 1.0,
+                          //                       ),
+                          //                     ),
+                          //                     elevation: 0.0,
+                          //                     child: ListTile(
+                          //                       trailing: IconButton(
+                          //                         icon: Icon(
+                          //                           Icons.close_rounded,
+                          //                           color: theme
+                          //                               .colorScheme.tertiary,
+                          //                         ),
+                          //                         onPressed: () {
+                          //                           context
+                          //                               .read<FavoriteWordCubit>()
+                          //                               .deleteTranslation(
+                          //                                   word.id, word.lang);
+                          //                           setState(() {});
+                          //                           BlocProvider.of<
+                          //                                       SearchWordCubit>(
+                          //                                   context)
+                          //                               .updateFavoriteButton(
+                          //                                   word.id,
+                          //                                   word.lang == 1
+                          //                                       ? true
+                          //                                       : false);
+                          //                         },
+                          //                       ),
+                          //                       contentPadding:
+                          //                           const EdgeInsets.symmetric(
+                          //                               vertical: 0,
+                          //                               horizontal: 16),
+                          //                       title: Text(
+                          //                         word.slovo,
+                          //                         style: TextStyle(
+                          //                           fontSize: 18,
+                          //                           fontWeight: FontWeight.bold,
+                          //                           color: context
+                          //                                       .watch<
+                          //                                           FavoriteWordCubit>()
+                          //                                       .state
+                          //                                       .selectedId ==
+                          //                                   word.id
+                          //                               ? theme.colorScheme
+                          //                                   .onPrimaryContainer
+                          //                                   .withOpacity(0.4)
+                          //                               : theme.colorScheme
+                          //                                   .onPrimaryContainer,
+                          //                         ),
+                          //                       ),
+                          //                       onTap: () {
+                          //                         context
+                          //                             .read<FavoriteWordCubit>()
+                          //                             .showTranslation(word.id,
+                          //                                 word.slovo, word.lang!);
+                          //                       },
+                          //                     ),
+                          //                   ),
+                          //                 );
+                          //               }).toList(),
+                          //             );
+                          //     }),
+                          ),
+
+                      context.watch<FavoriteWordCubit>().state.isVisible
+                          ? PopScope(
+                              canPop: false,
+                              onPopInvoked: (didPop) async {
+                                context
+                                    .read<FavoriteWordCubit>()
+                                    .setIsVisibleFalse();
+                                bool canPop = Navigator.canPop(context);
+                                if (canPop) {
+                                  Navigator.pop(context);
+                                } else {
+                                  return;
+                                }
+                              },
+                              child: Container(
+                                color: theme.colorScheme.surface,
+                                child: const Column(children: [
+                                  Row(children: [
+                                    Expanded(child: SelectedWordLine())
+                                  ]),
+                                  SizedBox(height: 16.0),
+                                  Expanded(child: ResultField()),
+                                ]),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
