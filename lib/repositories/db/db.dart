@@ -36,12 +36,12 @@ class DatabaseHelper {
 
   Future<List<WordTranslation>> getTranslation(
       String table, String word) async {
-    if (word == "") {
+    if (word.trim() == "") {
       return [];
     }
     Database db = await instance.database;
     var words = await db.query(table,
-        columns: ["id", "slovo"], where: "slovo LIKE '$word%'");
+        columns: ["id", "slovo"], where: "slovo LIKE '${word.trim()}%'");
     List<WordTranslation> wordsList = words.isNotEmpty
         ? words.map((c) => WordTranslation.fromMap(c)).toList()
         : [];
