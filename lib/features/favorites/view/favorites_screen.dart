@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sozlyuk/features/favorites/bloc/favorite_word_cubit.dart';
 import 'package:sozlyuk/features/favorites/widgets/widgets.dart';
-import 'package:sozlyuk/features/search/bloc/search_word/search_word_cubit.dart';
-
-import '../../../repositories/db/favorites_db.dart';
-import '../../../repositories/models/word_model.dart';
 
 @RoutePage()
 class FavoritesScreen extends StatefulWidget {
