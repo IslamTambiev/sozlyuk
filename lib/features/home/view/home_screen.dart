@@ -8,13 +8,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
+    return AutoTabsRouter.tabBar(
       routes: const [
         SearchRoute(),
         SavedRoute(),
         InfoRoute(),
       ],
-      builder: (context, child) {
+      builder: (context, child, tabsRouter) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           body: child,
