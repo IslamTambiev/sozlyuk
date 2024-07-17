@@ -122,7 +122,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                                             child: ListTile(
                                               trailing: IconButton(
                                                 icon: Icon(
-                                                  Icons.delete_outline,
+                                                  Icons.close_rounded,
                                                   color: theme
                                                       .colorScheme.tertiary,
                                                 ),
