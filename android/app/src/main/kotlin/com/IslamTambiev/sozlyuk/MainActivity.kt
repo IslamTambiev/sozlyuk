@@ -1,4 +1,4 @@
-package com.IslamTambiev.sozlyuk
+package com.islamtambiev.sozlyuk
 
 import io.flutter.embedding.android.FlutterActivity
 
