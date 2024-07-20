@@ -91,14 +91,14 @@ class _SearchScreenState extends State<SearchScreen>
                                     //height: MediaQuery.of(context).size.height - 550,
                                     decoration: BoxDecoration(
                                       color: theme.colorScheme.surface,
-                                      borderRadius:
-                                          BorderRadius.circular(10.0),
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     child: NeverBehindKeyboardArea(
                                       scrollView: ListView(
                                         //shrinkWrap: true,
-                                        physics:
-                                            const AlwaysScrollableScrollPhysics(),
+                                        physics: const BouncingScrollPhysics(
+                                            parent:
+                                                AlwaysScrollableScrollPhysics()),
                                         children: snapshot.data!.map((word) {
                                           return WordSearchCard(
                                             wordId: word.id,
