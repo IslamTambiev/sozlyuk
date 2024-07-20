@@ -30,6 +30,9 @@ class SearchLine extends StatelessWidget {
               fontSize: 20, color: theme.colorScheme.onSecondaryContainer),
           onChanged: (value) =>
               context.read<SearchWordCubit>().searchWord(value),
+          onTap: () => context
+              .read<SearchWordCubit>()
+              .searchWord(context.read<SearchWordCubit>().state.searchingWord),
         ),
       ),
     );
