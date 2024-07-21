@@ -53,40 +53,33 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                       //         ),
                       //       ]),
                       // ),
-                      RefreshIndicator(
-                          onRefresh: () async {
-                            context
-                                .read<FavoriteWordCubit>()
-                                .getFavoriteWords();
-                          },
-                          child: context
-                                  .watch<FavoriteWordCubit>()
-                                  .state
-                                  .favoriteWords
-                                  .isEmpty
-                              ? Stack(children: [
-                                  const FavoritesNotFound(),
-                                  ListView(children: const [
-                                    SizedBox.shrink(),
-                                  ]),
-                                ])
-                              : CustomScrollView(
-                                  // shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(
-                                      parent: AlwaysScrollableScrollPhysics()),
-                                  slivers: [
-                                    SliverList(
-                                      delegate: SliverChildBuilderDelegate(
-                                        (BuildContext context, int index) {
-                                          final word =
-                                              state.favoriteWords[index];
-                                          return FavoriteWordCard(word: word);
-                                        },
-                                        childCount: state.favoriteWords.length,
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                      context
+                              .watch<FavoriteWordCubit>()
+                              .state
+                              .favoriteWords
+                              .isEmpty
+                          ? Stack(children: [
+                              const FavoritesNotFound(),
+                              ListView(children: const [
+                                SizedBox.shrink(),
+                              ]),
+                            ])
+                          : CustomScrollView(
+                              // shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
+                              slivers: [
+                                SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                    (BuildContext context, int index) {
+                                      final word = state.favoriteWords[index];
+                                      return FavoriteWordCard(word: word);
+                                    },
+                                    childCount: state.favoriteWords.length,
+                                  ),
+                                ),
+                              ],
+                            ),
 
                       context.watch<FavoriteWordCubit>().state.isVisible
                           ? PopScope(
