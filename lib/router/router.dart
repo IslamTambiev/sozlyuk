@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:sozlyuk/features/favorites/favorites.dart';
 import 'package:sozlyuk/features/home/home.dart';
 import 'package:sozlyuk/features/search/search.dart';
+import 'package:sozlyuk/features/history/history.dart';
 import 'package:sozlyuk/features/settings/settings.dart';
 
 part 'router.gr.dart';
@@ -19,16 +20,18 @@ class AppRouter extends _$AppRouter {
               path: 'search',
             ),
             AutoRoute(
-              page: SavedRoute.page,
+              page: FavoritesRoute.page,
               path: 'favorites',
             ),
             AutoRoute(
-              page: InfoRoute.page,
+              page: HistoryRoute.page,
+              path: 'history',
+            ),
+            AutoRoute(
+              page: SettingsRoute.page,
               path: 'settings',
             ),
           ],
         ),
-        // AutoRoute(page: CryptoListRoute.page, path: '/'),
-        // AutoRoute(page: CryptoCoinRoute.page, path: '/coin'),
       ];
 }

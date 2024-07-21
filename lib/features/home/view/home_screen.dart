@@ -11,8 +11,9 @@ class HomeScreen extends StatelessWidget {
     return AutoTabsRouter.tabBar(
       routes: const [
         SearchRoute(),
-        SavedRoute(),
-        InfoRoute(),
+        FavoritesRoute(),
+        HistoryRoute(),
+        SettingsRoute(),
       ],
       builder: (context, child, tabsRouter) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -51,15 +52,22 @@ class HomeScreen extends StatelessWidget {
                 label: 'Избранное',
                 tooltip: '',
               ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.history),
-              //   label: 'История',
-              // ),
               NavigationDestination(
                 icon: _buildAnimatedIcon(
                   uniqueIndex: 2,
                   activeIndex: tabsRouter.activeIndex,
                   currentIndex: 2,
+                  activeIcon: Icons.history,
+                  inactiveIcon: Icons.history_outlined,
+                ),
+                label: 'История',
+                tooltip: '',
+              ),
+              NavigationDestination(
+                icon: _buildAnimatedIcon(
+                  uniqueIndex: 3,
+                  activeIndex: tabsRouter.activeIndex,
+                  currentIndex: 3,
                   activeIcon: Icons.settings,
                   inactiveIcon: Icons.settings_outlined,
                 ),

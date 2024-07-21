@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sozlyuk/bloc/theme/theme_cubit.dart';
+import 'package:sozlyuk/features/history/bloc/history_words_cubit.dart';
 import 'package:sozlyuk/features/settings/settings.dart';
 
 @RoutePage()
@@ -11,6 +12,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.watch<ThemeCubit>().state.isDark;
+    final doNeedToSaveHistory =
+        context.watch<HistoryWordsCubit>().state.needToSaveHistory;
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -46,6 +49,15 @@ class SettingsScreen extends StatelessWidget {
         //     onChanged: (value) {},
         //   ),
         // ),
+        SliverToBoxAdapter(
+          child: SettingsToggleCard(
+            title: 'Сохранять историю',
+            value: doNeedToSaveHistory,
+            onChanged: (value) {
+              context.read<HistoryWordsCubit>().setNeedToSaveHistory(value);
+            },
+          ),
+        ),
         const SliverToBoxAdapter(
           child: AboutAppInfo(),
         ),

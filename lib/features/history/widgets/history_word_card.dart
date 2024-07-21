@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sozlyuk/features/history/bloc/history_words_cubit.dart';
+import 'package:sozlyuk/repositories/models/word_model.dart';
 
-import '../bloc/search_word/search_word_cubit.dart';
-
-class WordSearchCard extends StatelessWidget {
-  const WordSearchCard({
+class HistoryWordCard extends StatelessWidget {
+  const HistoryWordCard({
     super.key,
-    required this.wordId,
     required this.word,
   });
 
-  final int? wordId;
-  final String word;
+  //
+  final WordTranslation word;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +18,7 @@ class WordSearchCard extends StatelessWidget {
     return Center(
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 1),
-        color: context.watch<SearchWordCubit>().state.selectedId == wordId
-            ? theme.colorScheme.primaryContainer.withOpacity(0.2)
-            : theme.colorScheme.primaryContainer,
+        color: theme.colorScheme.primaryContainer,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
           side: BorderSide(
@@ -32,26 +28,34 @@ class WordSearchCard extends StatelessWidget {
         ),
         elevation: 0.0,
         child: ListTile(
+          trailing: IconButton(
+            icon: Icon(
+              Icons.close_rounded,
+              color: theme.colorScheme.tertiary,
+            ),
+            onPressed: () {
+              context
+                  .read<HistoryWordsCubit>()
+                  .deleteTranslation(word.id, word.lang);
+            },
+          ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
           title: Text(
-            word,
+            word.slovo,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: context.watch<SearchWordCubit>().state.selectedId == wordId
-                  ? theme.colorScheme.onPrimaryContainer.withOpacity(0.4)
-                  : theme.colorScheme.onPrimaryContainer,
+              color:
+                  context.watch<HistoryWordsCubit>().state.selectedId == word.id
+                      ? theme.colorScheme.onPrimaryContainer.withOpacity(0.4)
+                      : theme.colorScheme.onPrimaryContainer,
             ),
           ),
           onTap: () {
-            context.read<SearchWordCubit>().showTranslation(word, wordId);
-            FocusManager.instance.primaryFocus?.unfocus();
-            context.read<HistoryWordsCubit>().saveWordToHistory(
-                  wordId!,
-                  word,
-                  context.read<SearchWordCubit>().state.isButtonClicked ? 1 : 0,
-                );
+            context
+                .read<HistoryWordsCubit>()
+                .showTranslation(word.id, word.slovo, word.lang!);
           },
         ),
       ),

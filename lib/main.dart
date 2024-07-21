@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sozlyuk/bloc/theme/theme_cubit.dart';
 import 'package:sozlyuk/features/favorites/bloc/favorite_word_cubit.dart';
+import 'package:sozlyuk/features/history/bloc/history_words_cubit.dart';
 import 'package:sozlyuk/features/search/bloc/search_word/search_word_cubit.dart';
 import 'package:sozlyuk/repositories/settings/settings.dart';
 import 'package:sozlyuk/router/router.dart';
@@ -22,7 +23,6 @@ class MyApp extends StatefulWidget {
 
   final SharedPreferences preferences;
 
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -37,13 +37,19 @@ class _MyAppState extends State<MyApp> {
       statusBarColor: Colors.black38, // Change the color here
     ));
 
-    final settingsRepository = SettingsRepository(preferences: widget.preferences);
+    final settingsRepository =
+        SettingsRepository(preferences: widget.preferences);
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ThemeCubit(settingsRepository: settingsRepository)),
+        BlocProvider(
+            create: (context) =>
+                ThemeCubit(settingsRepository: settingsRepository)),
         BlocProvider(create: (context) => SearchWordCubit()),
         BlocProvider(create: (context) => FavoriteWordCubit()),
+        BlocProvider(
+            create: (context) =>
+                HistoryWordsCubit(settingsRepository: settingsRepository)),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
