@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'pages/search_page.dart';
-import 'pages/info_page.dart';
-import 'pages/saved_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sozlyuk/bloc/theme/theme_cubit.dart';
+import 'package:sozlyuk/features/favorites/bloc/favorite_word_cubit.dart';
+import 'package:sozlyuk/features/history/bloc/history_words_cubit.dart';
+import 'package:sozlyuk/features/search/bloc/search_word/search_word_cubit.dart';
+import 'package:sozlyuk/repositories/settings/settings.dart';
+import 'package:sozlyuk/router/router.dart';
+import 'package:sozlyuk/ui/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   //await DB.init();
-  runApp(const MyApp());
+  runApp(MyApp(preferences: prefs));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key, required this.preferences});
+
+  final SharedPreferences preferences;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -21,96 +36,32 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.black38, // Change the color here
     ));
-    final ThemeData theme = ThemeData();
-    return MaterialApp(
-      home: const MyHomePage(),
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-            primary: Colors.indigo.shade500,
-            secondary: Colors.indigoAccent.shade200),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-    );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+    final settingsRepository =
+        SettingsRepository(preferences: widget.preferences);
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: SafeArea(
-          child: Container(
-            //padding: const EdgeInsets.all(4),
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF3F51B5),
-                  Color(0xFF0D47A1),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white.withOpacity(0.1),
-              ),
-              indicatorPadding: EdgeInsets.zero,
-              tabs: const [
-                Tab(
-                  text: 'Поиск',
-                  icon: Icon(Icons.search),
-                ),
-                Tab(
-                  text: 'Сохраненное',
-                  icon: Icon(Icons.bookmark),
-                ),
-                Tab(
-                  text: 'Инфо',
-                  icon: Icon(Icons.info),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          SearchTab(
-            needUpdate: () {
-              setState(() {});
-            },
-          ),
-          SavedTab(),
-          const InfoTab(),
-        ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) =>
+                ThemeCubit(settingsRepository: settingsRepository)),
+        BlocProvider(create: (context) => SearchWordCubit()),
+        BlocProvider(create: (context) => FavoriteWordCubit()),
+        BlocProvider(
+            create: (context) =>
+                HistoryWordsCubit(settingsRepository: settingsRepository)),
+      ],
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            //home: const MyHomePage(),
+            title: 'Сёзлюк',
+            themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            routerConfig: _appRouter.config(),
+          );
+        },
       ),
     );
   }
