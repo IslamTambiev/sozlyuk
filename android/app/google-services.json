@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "267874689169",
+    "project_id": "sozlyuk",
+    "storage_bucket": "sozlyuk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267874689169:android:43b138501b8e4a39c91f30",
+        "android_client_info": {
+          "package_name": "com.islamtambiev.sozlyuk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgzFkNtBtT4NWx93BoOIrbCmciEz5a8ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
