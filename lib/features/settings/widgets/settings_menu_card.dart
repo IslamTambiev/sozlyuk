@@ -45,11 +45,12 @@ class SettingsMenuCard extends StatelessWidget {
                     child: const Text('Show menu'),
                   );
                 },
-                menuChildren: [MenuItemButton(
-                  leadingIcon: const Icon(Icons.people_alt_outlined),
-                  child: const Text('Item 1'),
-                  onPressed: () {},
-                ),
+                menuChildren: [
+                  MenuItemButton(
+                    leadingIcon: const Icon(Icons.people_alt_outlined),
+                    child: const Text('Item 1'),
+                    onPressed: () {},
+                  ),
                   MenuItemButton(
                     leadingIcon: const Icon(Icons.remove_red_eye_outlined),
                     child: const Text('Item 2'),
@@ -59,7 +60,8 @@ class SettingsMenuCard extends StatelessWidget {
                     leadingIcon: const Icon(Icons.refresh),
                     onPressed: () {},
                     child: const Text('Item 3'),
-                  ),],
+                  ),
+                ],
               ),
             ),
           ],

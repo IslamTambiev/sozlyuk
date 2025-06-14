@@ -12,10 +12,9 @@ class AboutTheApplication extends StatelessWidget {
       children: [
         Text('Словари',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            )
-        ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                )),
         const SizedBox(height: 10.0),
         const Text(
           'В приложении используются следующие словари:\nКарачаево-балкарско - русский словарь: около 30000 слов/Карачаево-Черкесский н.-и. инс-т ист., филол. и экономики; С.А. Гочияева, Х.И. Суюнчев; Под ред. Э.Р. Тенишева и Х.И. Суюнчева. - М.: Рус. яз., 1989. - 892 с.',

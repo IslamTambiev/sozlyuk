@@ -47,7 +47,7 @@ class _AboutAppInfoState extends State<AboutAppInfo> {
             showAboutDialog(
               context: context,
               applicationIcon:
-              Image.asset('assets/images/icon.png', height: 80),
+                  Image.asset('assets/images/icon.png', height: 80),
               applicationName: 'Сёзлюк',
               applicationVersion: _packageInfo.version,
               children: [
