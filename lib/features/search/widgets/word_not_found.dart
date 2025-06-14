@@ -12,7 +12,7 @@ class WordNotFound extends StatelessWidget {
       width: 250,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.9),
+        color: theme.colorScheme.surface.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Text(

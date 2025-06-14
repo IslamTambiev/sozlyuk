@@ -90,7 +90,8 @@ class _HistoryScreenState extends State<HistoryScreen>
                       context.watch<HistoryWordsCubit>().state.isVisible
                           ? PopScope(
                               canPop: false,
-                              onPopInvoked: (didPop) async {
+                              onPopInvokedWithResult:
+                                  (didPop, Object? result) async {
                                 context
                                     .read<HistoryWordsCubit>()
                                     .setIsVisibleFalse();

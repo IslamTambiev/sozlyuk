@@ -10,6 +10,7 @@ class FavoriteWordCard extends StatelessWidget {
     super.key,
     required this.word,
   });
+
   //
   final WordTranslation word;
 
@@ -23,7 +24,7 @@ class FavoriteWordCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
           side: BorderSide(
-            color: theme.colorScheme.outline.withOpacity(0.3),
+            color: theme.colorScheme.outline.withValues(alpha: 0.3),
             width: 1.0,
           ),
         ),
@@ -49,10 +50,10 @@ class FavoriteWordCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color:
-                  context.watch<FavoriteWordCubit>().state.selectedId == word.id
-                      ? theme.colorScheme.onPrimaryContainer.withOpacity(0.4)
-                      : theme.colorScheme.onPrimaryContainer,
+              color: context.watch<FavoriteWordCubit>().state.selectedId ==
+                      word.id
+                  ? theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.4)
+                  : theme.colorScheme.onPrimaryContainer,
             ),
           ),
           onTap: () {

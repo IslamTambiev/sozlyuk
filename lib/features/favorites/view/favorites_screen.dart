@@ -84,7 +84,8 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                       context.watch<FavoriteWordCubit>().state.isVisible
                           ? PopScope(
                               canPop: false,
-                              onPopInvoked: (didPop) async {
+                              onPopInvokedWithResult:
+                                  (didPop, Object? result) async {
                                 context
                                     .read<FavoriteWordCubit>()
                                     .setIsVisibleFalse();
