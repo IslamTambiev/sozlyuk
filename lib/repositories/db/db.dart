@@ -19,14 +19,22 @@ class DatabaseHelper {
     var dbDir = await getDatabasesPath();
     var dbPath = join(dbDir, "app.db");
 
-    // Delete any existing database:
-    await deleteDatabase(dbPath);
+    // Check if the database exists
+    var exists = await databaseExists(dbPath);
 
-    // Create the writable database file from the bundled demo database file:
-    ByteData data = await rootBundle.load("assets/slovarbr.db");
-    List<int> bytes =
-        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-    await File(dbPath).writeAsBytes(bytes);
+    // To copy a fresh database, delete the old one instance each time app runs.
+    // exists = false;
+
+    if (!exists) {
+      // Delete any existing database:
+      await deleteDatabase(dbPath);
+
+      // Create the writable database file from the bundled database file.
+      ByteData data = await rootBundle.load("assets/slovarbr.db");
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      await File(dbPath).writeAsBytes(bytes);
+    }
 
     return await openDatabase(
       dbPath,
