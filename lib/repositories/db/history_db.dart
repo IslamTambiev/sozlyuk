@@ -23,13 +23,14 @@ class HistoryDatabaseHelper {
 
     return await openDatabase(
       dbPath,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
-      // onUpgrade: (Database db, int oldV, int newV) async {
-      //   if (oldV < newV) {
-      //     await db.execute('ALTER TABLE history ADD COLUMN lang INTEGER');
-      //   }
-      // },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute("ALTER TABLE history ADD COLUMN created_at TEXT");
+          await db.execute("UPDATE history SET created_at = datetime('now')");
+        }
+      },
     );
   }
 
@@ -38,14 +39,18 @@ class HistoryDatabaseHelper {
       CREATE TABLE history(
           id INTEGER PRIMARY KEY,
           slovo TEXT,
-          lang INTEGER
+          lang INTEGER,
+          created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )
       ''');
   }
 
   Future<List<WordTranslation>> getTranslation() async {
     Database db = await instance.database;
-    var words = await db.query('history');
+    var words = await db.query(
+      'history',
+      orderBy: 'created_at DESC',
+    );
     List<WordTranslation> wordsList = words.isNotEmpty
         ? words.map((c) => WordTranslation.fromMap(c)).toList()
         : [];
@@ -66,7 +71,25 @@ class HistoryDatabaseHelper {
 
   Future<int> add(WordTranslation word) async {
     Database db = await instance.database;
-    return await db.insert('history', word.toMap());
+
+    // Проверяем, есть ли такая запись
+    final existing = await getOneTranslation(word.id, word.lang);
+    final now = DateTime.now().toIso8601String();
+
+    if (existing) {
+      // Обновляем только дату
+      return await db.update(
+        'history',
+        {'created_at': now},
+        where: 'id = ? AND lang = ?',
+        whereArgs: [word.id, word.lang],
+      );
+    } else {
+      // Добавляем новую запись с текущей датой
+      Map<String, dynamic> map = word.toMap();
+      map['created_at'] = now;
+      return await db.insert('history', map);
+    }
   }
 
   Future<int> remove(int? id, int? lang) async {

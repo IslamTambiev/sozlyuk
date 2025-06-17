@@ -94,17 +94,24 @@ class _SearchScreenState extends State<SearchScreen>
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     child: NeverBehindKeyboardArea(
-                                      scrollView: ListView(
+                                      scrollView: ListView.builder(
+                                        itemCount: snapshot.data!.length,
+                                        itemBuilder: (context, index) {
+                                          return WordSearchCard(
+                                            wordId: snapshot.data![index].id,
+                                            word: snapshot.data![index].slovo,
+                                          );
+                                        },
                                         //shrinkWrap: true,
                                         physics: const BouncingScrollPhysics(
                                             parent:
                                                 AlwaysScrollableScrollPhysics()),
-                                        children: snapshot.data!.map((word) {
-                                          return WordSearchCard(
-                                            wordId: word.id,
-                                            word: word.slovo,
-                                          );
-                                        }).toList(),
+                                        // children: snapshot.data!.map((word) {
+                                        //   return WordSearchCard(
+                                        //     wordId: word.id,
+                                        //     word: word.slovo,
+                                        //   );
+                                        // }).toList(),
                                       ),
                                     ),
                                   );
