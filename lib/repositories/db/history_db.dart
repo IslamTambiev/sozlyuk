@@ -40,7 +40,7 @@ class HistoryDatabaseHelper {
           id INTEGER PRIMARY KEY,
           slovo TEXT,
           lang INTEGER,
-          created_at TEXT DEFAULT CURRENT_TIMESTAMP
+          created_at TEXT
       )
       ''');
   }
