@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/search_word/search_word_cubit.dart';
@@ -33,6 +34,9 @@ class SearchLine extends StatelessWidget {
           onTap: () => context
               .read<SearchWordCubit>()
               .searchWord(context.read<SearchWordCubit>().state.searchingWord),
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[а-яА-ЯёЁ\s\-]')),
+          ],
         ),
       ),
     );
